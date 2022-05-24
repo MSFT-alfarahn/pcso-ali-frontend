@@ -3,17 +3,22 @@
 
 <h1>Welcome ToDo Page - here we will consume the new API</h1>
 
-
+<h3>@jsonData</h3>
 
 <button class="btn btn-primary" @onclick="AddToDo">Add To Do</button>
 
 <button class="btn btn-primary" @onclick="InvokeJavaScript">Invoke JavaScript</button>
 @code {
     private int count = 0;
+    private string jsonData;
 
-    private void AddToDo()
+    private async void AddToDo()
     {
+        // Now we want to use our Web API
         count++;
+        HttpClient httpClient = new HttpClient();
+        jsonData = await httpClient.GetStringAsync("https://pcso-ali-backend.azurewebsites.net/todoitems");
+        StateHasChanged();
     }
 
     private async void InvokeJavaScript()
