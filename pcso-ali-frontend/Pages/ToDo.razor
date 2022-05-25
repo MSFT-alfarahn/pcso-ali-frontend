@@ -6,25 +6,18 @@
 
 @if (todoList != null)
 {
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Message</th>
-                <th>Created</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var todo in todoList)
-            {
-                <tr>
-                    <td>@todo.name</td>
-                    <td>@todo.message</td>
-                    <td>@todo.created</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var todo in todoList)
+    {
+        <MudCard>
+            <!--MudCardMedia Image="images/satya.jfif" Height="50" /-->
+            <MudCardContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">@todo.name</MudText>
+                <MudText Typo="Typo.body1">@todo.message</MudText>
+                <MudText Typo="Typo.body2">@todo.created</MudText>  
+            </MudCardContent>
+        </MudCard>
+        <br />
+    }
 }
 
 <MudTextField @bind-Value="name" Label="Name" Variant="Variant.Outlined"></MudTextField>
