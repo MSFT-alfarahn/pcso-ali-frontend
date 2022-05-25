@@ -1,15 +1,31 @@
 ﻿@page "/counter"
+@using Microsoft.AspNetCore.SignalR.Client
 
 
 <h1>@count</h1>
-
+<h1>@timeNow</h1>
 <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
 
 @code {
     private int count = 0;
+    private string timeNow;
 
-    private void IncrementCount()
+    private async void IncrementCount()
     {
         count++;
+
+        //Replace port "7054" with the port running the MainSignalServer project
+        var uri = "https://localhost:7274/current-time";
+
+        await using var connection = new HubConnectionBuilder().WithUrl(uri).Build();
+
+        await connection.StartAsync();
+
+        await foreach (var date in connection.StreamAsync<DateTime>("Streaming"))
+        {
+            Console.WriteLine(date);
+            timeNow = date.ToString();
+            StateHasChanged();
+        }
     }
 }

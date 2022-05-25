@@ -6,6 +6,19 @@
 
 <PageTitle>Index</PageTitle>
 
+@if (messages != null)
+{
+    @foreach (var message in messages)
+    {
+        <MudCard>
+            <!--MudCardMedia Image="images/satya.jfif" Height="50" /-->
+            <MudCardContent>
+                <MudText Typo="Typo.h5" Color="Color.Primary">@message</MudText>
+            </MudCardContent>
+        </MudCard>
+        <br />
+    }
+}
 <div class="form-group">
     <label>
         User:
@@ -22,12 +35,7 @@
 
 <hr>
 
-<ul id="messagesList">
-    @foreach (var message in messages)
-    {
-        <li>@message</li>
-    }
-</ul>
+
 
 @code {
     private HubConnection? hubConnection;
@@ -38,12 +46,13 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://pcso-ali-backend.azurewebsites.net/chathub")
+            
+            .WithUrl("https://pcso-ali-backend.azurewebsites.net/chat")
             .Build();
 
-        hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+        hubConnection.On<string, string>("ReceiveMessage", (name, message) =>
         {
-            var encodedMsg = $"{user}: {message}";
+            var encodedMsg = $"{name}: {message}";
             messages.Add(encodedMsg);
             StateHasChanged();
         });
