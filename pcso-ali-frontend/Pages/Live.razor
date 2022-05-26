@@ -33,7 +33,8 @@
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()   
-            .WithUrl("https://live-pcso.service.signalr.net/chat")
+            .WithUrl("https://pcso-ali-backend.azurewebsites.net/chat")
+            
             .Build();
 
         hubConnection.On<string, string>("Receive", (name, message) =>
